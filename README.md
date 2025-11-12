@@ -1,6 +1,6 @@
 # SnapStart Bug Scanner (Python, libcst-based)
 
-This is a lightweight static analyzer to spot AWS Lambda **SnapStart** anti-patterns in Python code, inspired by the Java SnapStart Bug Scanner. It focuses on code executed at **module import time** that can behave badly across snapshot/restore.
+This is a lightweight static analyzer to spot AWS Lambda **SnapStart** anti-patterns in Python code, inspired by the Java SnapStart Bug Scanner. It focuses on code executed that can behave badly across snapshot/restore.
 
 ## Rules Implemented (8)
 - **PY001_MUTABLE_MODULE_STATE (WARN):** Mutable objects (list/dict/set) created at module level.
