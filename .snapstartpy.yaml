@@ -1,0 +1,5 @@
+severity:
+  PY002_NON_IDEMPOTENT_INIT: ERROR
+  PY006_BOTO3_CLIENT_AT_INIT: ERROR
+exit_on: ERROR
+format: json
