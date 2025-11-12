@@ -20,7 +20,7 @@ requests.get("https://example.com")  # snapstart: ignore[PY002]
 ```bash
 git clone git@github.com:vanshmadan/aws-lambda-snapstart-python-scanner.git
 cd aws-lambda-snapstart-python-scanner
-python3 -m venv venv
+python -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
 ```
