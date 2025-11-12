@@ -24,6 +24,11 @@ pip install libcst pyyaml
 
 ## Run against a repo path
 ```bash
+
+git clone git@github.com:vanshmadan/aws-lambda-snapstart-python-scanner.git
+
+cd aws-lambda-snapstart-python-scanner
+
 # scan current folder
 python cli.py . --format text
 
