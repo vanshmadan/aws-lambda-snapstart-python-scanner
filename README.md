@@ -61,4 +61,5 @@ format: json
 ```
 
 ## Limitations
+
 Static analysis is heuristic. Validate critical behavior with real SnapStart runs and runtime hooks.
