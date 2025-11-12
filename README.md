@@ -18,6 +18,8 @@ requests.get("https://example.com")  # snapstart: ignore[PY002]
 
 ## Install
 ```bash
+git clone git@github.com:vanshmadan/aws-lambda-snapstart-python-scanner.git
+cd aws-lambda-snapstart-python-scanner
 python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
@@ -25,11 +27,6 @@ pip3 install -r requirements.txt
 
 ## Run against a repo path
 ```bash
-
-git clone git@github.com:vanshmadan/aws-lambda-snapstart-python-scanner.git
-
-cd aws-lambda-snapstart-python-scanner
-
 # scan current folder
 python cli.py . --format text
 
