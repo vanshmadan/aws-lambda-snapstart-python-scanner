@@ -18,7 +18,9 @@ requests.get("https://example.com")  # snapstart: ignore[PY002]
 
 ## Install
 ```bash
-pip install libcst pyyaml
+python3 -m venv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
 ```
 
 ## Run against a repo path
