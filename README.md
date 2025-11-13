@@ -1,10 +1,9 @@
-## SnapStart Bug Scanner 
+# SnapStart Bug Scanner 
 This is a lightweight static analyzer to spot AWS Lambda **SnapStart** anti-patterns in Python code, inspired by the Java SnapStart Bug Scanner. It focuses on code executed that can behave badly across snapshot/restore.
 
 ---
 
 ## 🚀 Features
-
 - 🔍 Scans your **entire repository** recursively for Python files.  
 - 🧠 Detects 8 key SnapStart-incompatible categories (mutable globals, non-idempotent init, random init, etc.).  
 - ⚙️ Configurable via `.snapstart-scan.yaml` (includes ignore patterns, severity levels, and hook names).  
@@ -39,8 +38,8 @@ python cli.py /path/to/repo --include "src/**/*.py,lambda/**/*.py"
 # exclude tests and migration scripts in addition to default ignores
 python cli.py /path/to/repo --exclude "**/tests/**,**/migrations/**" --format text
 ```
-
-
+---
+ 
 ## Rules Implemented (8)
 | Rule ID                            | Description                                                          |
 | ---------------------------------- | -------------------------------------------------------------------- |
