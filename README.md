@@ -64,13 +64,6 @@ python cli.py --repo /path/to/lambda
 ```bash
 snapstart-scan --repo my-lambda-project
 ```
-
-Or via Python:
-
-```bash
-python cli.py --repo my-lambda-project
-```
-
 ### Generate HTML report
 
 ```bash
