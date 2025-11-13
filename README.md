@@ -38,6 +38,16 @@ python cli.py /path/to/repo --include "src/**/*.py,lambda/**/*.py"
 # exclude tests and migration scripts in addition to default ignores
 python cli.py /path/to/repo --exclude "**/tests/**,**/migrations/**" --format text
 ```
+
+## Example HTML Report
+Generate an interactive HTML report:
+```
+python cli.py --repo /path/to/repo --format html
+```
+This produces:
+```
+snapstart_report.html
+```
 ---
  
 ## Rules Implemented (8)
