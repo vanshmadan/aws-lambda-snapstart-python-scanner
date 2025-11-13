@@ -146,14 +146,6 @@ exit_on:
 
 ---
 
-# 🧪 GitHub Actions Usage
-
-```yaml
-- name: Run SnapStart Scanner
-  run: |
-    ./snapstart-scan --repo . --format json > findings.json
-```
-
 Fail pipeline on ERRORs:
 
 ```bash
