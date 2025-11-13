@@ -1,4 +1,4 @@
-# SnapStart Bug Scanner 
+## SnapStart Bug Scanner 
 This is a lightweight static analyzer to spot AWS Lambda **SnapStart** anti-patterns in Python code, inspired by the Java SnapStart Bug Scanner. It focuses on code executed that can behave badly across snapshot/restore.
 
 ---
