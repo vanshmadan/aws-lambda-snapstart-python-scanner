@@ -1,96 +1,189 @@
-# SnapStart Bug Scanner 
-This is a lightweight static analyzer to spot AWS Lambda **SnapStart** anti-patterns in Python code, inspired by the Java SnapStart Bug Scanner. It focuses on code executed that can behave badly across snapshot/restore.
+#  AWS Lambda SnapStart Bug Scanner (Python)
+
+**AWS Lambda SnapStart Python Scanner** is a static analysis tool that detects **SnapStart-incompatible initialization patterns** in AWS Lambda Python functions.
+
+It is inspired by the official SnapStart Bug Scanner for Java — but implemented in Python using [`libcst`](https://github.com/Instagram/LibCST), enabling precise analysis without executing code.
+
+This tool helps ensure your Lambda function behaves correctly when SnapStart restores a pre-initialized execution environment.
 
 ---
 
-## 🚀 Features
-- 🔍 Scans your **entire repository** recursively for Python files.  
-- 🧠 Detects 8 key SnapStart-incompatible categories (mutable globals, non-idempotent init, random init, etc.).  
-- ⚙️ Configurable via `.snapstart-scan.yaml` (includes ignore patterns, severity levels, and hook names).  
+# 🚀 Features
+
+- 🔁 **Recursive repository scanning** (`**/*.py`)
+- 🎯 **8 SnapStart-incompatibility rule categories**
 - 💬 Supports multiple output formats:
-  - `text` (CLI output)
-  - `json` (for CI/CD or scripting)
-  - `html` (beautiful Jinja2-based report)
-- 🧩 Inline suppression: use `# snapstart: ignore[PY001]` to skip specific findings.
+  - `text`
+  - `json`
+  - `html` (interactive Jinja2 report)
+- 🪶 Inline suppression with comments:
+  - `# snapstart: ignore[PY001]`
+- ⚙️ `.snapstart-scan.yaml` config support
+- 📊 HTML report with filters + syntax-highlighted code context
 
 ---
 
-## Install
+# 📦 Installation
+
+## Option 1 — Prebuilt Binary (Recommended)
+
+Download from **GitHub Releases**.
+
 ```bash
-git clone git@github.com:vanshmadan/aws-lambda-snapstart-python-scanner.git
+chmod +x snapstart-scan
+./snapstart-scan --repo /path/to/repo
+```
+
+➡️ **No Python required**.
+
+---
+
+## Option 2 — Run From Source
+
+```bash
+git clone https://github.com/vanshmadan/aws-lambda-snapstart-python-scanner.git
 cd aws-lambda-snapstart-python-scanner
-python -m venv venv
+
+python3 -m venv venv
 source venv/bin/activate
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-## Run against a repo path
+Run scanner:
+
 ```bash
-# scan current folder
-python cli.py . --format text
-
-# scan an explicit repo path
-python cli.py --repo /path/to/repo --format json
-
-# only scan code under src/ and lambda/ folders
-python cli.py /path/to/repo --include "src/**/*.py,lambda/**/*.py"
-
-# exclude tests and migration scripts in addition to default ignores
-python cli.py /path/to/repo --exclude "**/tests/**,**/migrations/**" --format text
+python cli.py --repo /path/to/lambda
 ```
 
-## Example HTML Report
-Generate an interactive HTML report:
+---
+
+# 🕹️ Usage
+
+### Basic scan
+
+```bash
+snapstart-scan --repo my-lambda-project
 ```
-python cli.py --repo /path/to/repo --format html
+
+Or via Python:
+
+```bash
+python cli.py --repo my-lambda-project
 ```
-This produces:
+
+### Generate HTML report
+
+```bash
+snapstart-scan --repo . --format html
+```
+
+Output:
+
 ```
 snapstart_report.html
 ```
+
 ---
- 
-## Rules Implemented (8)
-| Rule ID                            | Description                                                          |
-| ---------------------------------- | -------------------------------------------------------------------- |
-| **PY001_MUTABLE_MODULE_STATE**     | Mutable global state (lists, dicts, sets) created at import time.    |
-| **PY002_NON_IDEMPOTENT_INIT**      | Side-effectful I/O (requests, subprocess, os.system) at import time. |
-| **PY003_BACKGROUND_THREADS**       | Thread or executor started during import.                            |
-| **PY004_OPEN_SOCKETS_FILES**       | Open files/sockets before handler init.                              |
-| **PY005_RANDOM_TIME_UUID_AT_INIT** | Randomness/time/UUID usage at module init.                           |
-| **PY006_BOTO3_CLIENT_AT_INIT**     | Boto3 client/resource created globally.                              |
-| **PY007_TMP_FILES_CREDS_AT_INIT**  | Temp files or credentials stored in `/tmp` during init.              |
-| **PY008_MISSING_RUNTIME_HOOKS**    | Hazardous init without restore hooks (e.g., `after_restore`).        |
 
+# 📊 Supported Rules
 
+| Rule | Description |
+|------|-------------|
+| PY001 | Mutable module‑level state |
+| PY002 | Non‑idempotent logic at import time |
+| PY003 | Threads/executors started at import |
+| PY004 | Opening files/sockets at import |
+| PY005 | Random/time/uuid executed at import |
+| PY006 | `boto3.client()` during init |
+| PY007 | Tempfiles, creds or FS access at import |
+| PY008 | Dangerous init without restore hooks |
 
-### Exit codes
-- Controlled via `.snapstartpy.yaml` `exit_on`: `ERROR` (default), `WARN`, or `NEVER`.
+---
 
-- `ERROR`: exit 2 if any ERROR findings
+# 🖼️ Example Output
 
-- `WARN`: exit 1 if any findings
+```
+WARN PY001_MUTABLE_MODULE_STATE /app.py:4079
+→ routers = [
+   Mutable object created at module level; consider making immutable or moving to handler.
 
-- `NEVER`: always 0
+ERROR PY002_NON_IDEMPOTENT_INIT /test.py:7
+→ requests.get("https://example.com")
+   Potential non-idempotent side-effect call 'requests.get' at module import.
+```
 
-## Config file: (.snapstart-scan.yaml)
+---
+
+# 🎛️ Inline Suppression
+
+### Ignore a specific rule
+
+```python
+routers = []  # snapstart: ignore[PY001]
+```
+
+### Ignore all on line
+
+```python
+value = generate_data()  # snapstart: ignore
+```
+
+---
+
+# ⚙️ Configuration (`.snapstart-scan.yaml`)
+
 ```yaml
-severity:
-  PY002_NON_IDEMPOTENT_INIT: ERROR
-ignore_paths:
+output_format: text
+
+ignore_patterns:
+  - "venv/**"
   - "tests/**"
-  - "**/__pycache__/**"
+
+severities:
+  PY001_MUTABLE_MODULE_STATE: WARN
+  PY002_NON_IDEMPOTENT_INIT: ERROR
+
 hook_names:
-  - before_snapshot
   - after_restore
-exit_on: ERROR
-format: json
+  - before_invoke
+
+exit_on:
+  - ERROR
 ```
 
-## Feedback
+---
+
+# 🧪 GitHub Actions Usage
+
+```yaml
+- name: Run SnapStart Scanner
+  run: |
+    ./snapstart-scan --repo . --format json > findings.json
+```
+
+Fail pipeline on ERRORs:
+
+```bash
+./snapstart-scan --repo . --exit-on ERROR
+```
+
+---
+
+# 🪪 License (Apache 2.0)
 
 ```
-Have suggestions or want to contribute?
-Open a GitHub issue
-Or DM me on LinkedIn
+Licensed under the Apache License, Version 2.0
+http://www.apache.org/licenses/LICENSE-2.0
 ```
+
+---
+
+# 🤝 Contributing
+
+PRs and issues are welcome!
+
+---
+
+# ⭐ Support
+
+If you like this project, give it a **GitHub star** ❤️
