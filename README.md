@@ -1,20 +1,20 @@
 # SnapStart Bug Scanner 
 This is a lightweight static analyzer to spot AWS Lambda **SnapStart** anti-patterns in Python code, inspired by the Java SnapStart Bug Scanner. It focuses on code executed that can behave badly across snapshot/restore.
 
-## Rules Implemented (8)
-- **PY001_MUTABLE_MODULE_STATE (WARN):** Mutable objects (list/dict/set) created at module level.
-- **PY002_NON_IDEMPOTENT_INIT (ERROR):** Side‑effect calls at import time: `requests.*`, `subprocess.*`, `os.system`, etc.
-- **PY003_BACKGROUND_THREADS (ERROR):** `threading.Thread/Timer`, `ThreadPoolExecutor`, schedulers created at import time.
-- **PY004_OPEN_SOCKETS_FILES (ERROR):** `socket.socket()`, `open()` at import time.
-- **PY005_RANDOM_TIME_UUID_AT_INIT (WARN):** `random.*`, `uuid.uuid*`, `time.time()`, `datetime.now()` computed at import time.
-- **PY006_BOTO3_CLIENT_AT_INIT (ERROR):** `boto3.client/resource` created at module level.
-- **PY007_TMP_FILES_CREDS_AT_INIT (WARN):** writing to `/tmp` or using `tempfile.*` at import time.
-- **PY008_MISSING_RUNTIME_HOOKS (WARN):** If any hazardous patterns (PY002/3/4/6/7) exist but no runtime hook functions (`before_snapshot` / `after_restore` etc.) are found.
+---
 
-Inline ignores:
-```py
-requests.get("https://example.com")  # snapstart: ignore[PY002]
-```
+## 🚀 Features
+
+- 🔍 Scans your **entire repository** recursively for Python files.  
+- 🧠 Detects 8 key SnapStart-incompatible categories (mutable globals, non-idempotent init, random init, etc.).  
+- ⚙️ Configurable via `.snapstart-scan.yaml` (includes ignore patterns, severity levels, and hook names).  
+- 💬 Supports multiple output formats:
+  - `text` (CLI output)
+  - `json` (for CI/CD or scripting)
+  - `html` (beautiful Jinja2-based report)
+- 🧩 Inline suppression: use `# snapstart: ignore[PY001]` to skip specific findings.
+
+---
 
 ## Install
 ```bash
@@ -40,6 +40,21 @@ python cli.py /path/to/repo --include "src/**/*.py,lambda/**/*.py"
 python cli.py /path/to/repo --exclude "**/tests/**,**/migrations/**" --format text
 ```
 
+
+## Rules Implemented (8)
+| Rule ID                            | Description                                                          |
+| ---------------------------------- | -------------------------------------------------------------------- |
+| **PY001_MUTABLE_MODULE_STATE**     | Mutable global state (lists, dicts, sets) created at import time.    |
+| **PY002_NON_IDEMPOTENT_INIT**      | Side-effectful I/O (requests, subprocess, os.system) at import time. |
+| **PY003_BACKGROUND_THREADS**       | Thread or executor started during import.                            |
+| **PY004_OPEN_SOCKETS_FILES**       | Open files/sockets before handler init.                              |
+| **PY005_RANDOM_TIME_UUID_AT_INIT** | Randomness/time/UUID usage at module init.                           |
+| **PY006_BOTO3_CLIENT_AT_INIT**     | Boto3 client/resource created globally.                              |
+| **PY007_TMP_FILES_CREDS_AT_INIT**  | Temp files or credentials stored in `/tmp` during init.              |
+| **PY008_MISSING_RUNTIME_HOOKS**    | Hazardous init without restore hooks (e.g., `after_restore`).        |
+
+
+
 ### Exit codes
 - Controlled via `.snapstartpy.yaml` `exit_on`: `ERROR` (default), `WARN`, or `NEVER`.
 
@@ -49,7 +64,7 @@ python cli.py /path/to/repo --exclude "**/tests/**,**/migrations/**" --format te
 
 - `NEVER`: always 0
 
-## Config file: `.snapstartpy.yaml`
+## Config file: (.snapstart-scan.yaml)
 ```yaml
 severity:
   PY002_NON_IDEMPOTENT_INIT: ERROR
@@ -63,6 +78,10 @@ exit_on: ERROR
 format: json
 ```
 
-## Limitations
+## Feedback
 
-Static analysis is heuristic. Validate critical behavior with real SnapStart runs and runtime hooks.
+```
+Have suggestions or want to contribute?
+Open a GitHub issue
+Or DM me on LinkedIn
+```
