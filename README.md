@@ -1,5 +1,31 @@
 #  AWS Lambda SnapStart Bug Scanner (Python)
 
+<p align="center">
+  <a href="https://github.com/vanshmadan/aws-lambda-snapstart-python-scanner/stargazers">
+    <img src="https://img.shields.io/github/stars/vanshmadan/aws-lambda-snapstart-python-scanner?style=for-the-badge" alt="Stars Badge"/>
+  </a>
+  
+  <a href="https://github.com/vanshmadan/aws-lambda-snapstart-python-scanner/network/members">
+    <img src="https://img.shields.io/github/forks/vanshmadan/aws-lambda-snapstart-python-scanner?style=for-the-badge" alt="Forks Badge"/>
+  </a>
+
+  <a href="https://github.com/vanshmadan/aws-lambda-snapstart-python-scanner/issues">
+    <img src="https://img.shields.io/github/issues/vanshmadan/aws-lambda-snapstart-python-scanner?style=for-the-badge" alt="Issues Badge"/>
+  </a>
+
+  <a href="LICENSE">
+    <img src="https://img.shields.io/github/license/vanshmadan/aws-lambda-snapstart-python-scanner?style=for-the-badge" alt="License Badge"/>
+  </a>
+
+  <a href="https://github.com/vanshmadan/aws-lambda-snapstart-python-scanner/actions">
+    <img src="https://img.shields.io/github/actions/workflow/status/vanshmadan/aws-lambda-snapstart-python-scanner/ci.yml?style=for-the-badge" alt="Build Status Badge"/>
+  </a>
+
+  <a href="https://pypi.org/project/aws-lambda-snapstart-scanner">
+    <img src="https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge" alt="Python Badge"/>
+  </a>
+</p>
+
 A Python-based scanner that detects compatibility issues when enabling AWS Lambda SnapStart. Helps identify cold-start risks, initialization patterns, and SnapStart-breaking code before deployment.
 
 
