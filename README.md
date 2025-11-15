@@ -21,6 +21,11 @@
     <img src="https://img.shields.io/github/license/vanshmadan/aws-lambda-snapstart-python-scanner?style=for-the-badge" alt="License Badge"/>
   </a>
 
+  <a href="https://github.com/vanshmadan/aws-lambda-snapstart-python-scanner/releases/latest">
+  <img src="https://img.shields.io/github/downloads/vanshmadan/aws-lambda-snapstart-python-scanner/latest/total?style=for-the-badge" alt="Latest Release Downloads"/>
+  </a>
+
+
   <a href="https://pypi.org/project/aws-lambda-snapstart-scanner">
     <img src="https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge" alt="Python Badge"/>
   </a>
