@@ -12,9 +12,9 @@
   <a href="https://github.com/vanshmadan/aws-lambda-snapstart-python-scanner/issues">
     <img src="https://img.shields.io/github/issues/vanshmadan/aws-lambda-snapstart-python-scanner?style=for-the-badge" alt="Issues Badge"/>
   </a>
-    
-  <a href="https://github.com/vanshmadan/aws-lambda-snapstart-python-scanner/actions">
-    <img src="https://img.shields.io/github/actions/workflow/status/vanshmadan/aws-lambda-snapstart-python-scanner/ci.yml?style=for-the-badge" alt="Build Status Badge"/>
+
+  <a href="https://github.com/vanshmadan/aws-lambda-snapstart-python-scanner/releases">
+  <img src="https://img.shields.io/github/v/release/vanshmadan/aws-lambda-snapstart-python-scanner?style=for-the-badge" alt="Latest Release"/>
   </a>
 
   <a href="LICENSE">
