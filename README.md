@@ -2,9 +2,13 @@
 
 A Python-based scanner that detects compatibility issues when enabling AWS Lambda SnapStart. Helps identify cold-start risks, initialization patterns, and SnapStart-breaking code before deployment.
 
-It is inspired by the official SnapStart Bug Scanner for Java — but implemented in Python using [`libcst`](https://github.com/Instagram/LibCST), enabling precise analysis without executing code.
 
-This tool helps ensure your Lambda function behaves correctly when SnapStart restores a pre-initialized execution environment.
+This **Python-based SnapStart Scanner** helps developers detect potential compatibility issues *before* enabling SnapStart on their Lambda functions.  
+It analyzes your codebase, highlights risky patterns, and generates a simple, readable report.
+
+Perfect for teams adopting SnapStart safely across large serverless applications.
+
+It is inspired by the official SnapStart Bug Scanner for Java — but implemented in Python using [`libcst`](https://github.com/Instagram/LibCST), enabling precise analysis without executing code.
 
 ---
 
